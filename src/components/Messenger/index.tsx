@@ -71,18 +71,26 @@ interface MessengerProps {
     type?: string;
 }
 interface MessengerState {
-    currentRoom: string;
+    currentRoomId: string;
 }
 class Messenger extends React.Component<MessengerProps, MessengerState> {
     constructor(props: MessengerProps) {
         super(props);
         document.title = 'Tin nhắn'
         this.state = {
-            currentRoom: mockUpDataChatSummary[0].room
+            currentRoomId: mockUpDataChatSummary[0].room
         }
     }
-    shouldComponentUpdate(nextProps: Readonly<MessengerProps>, nextState: Readonly<{}>): boolean {
+    shouldComponentUpdate(nextProps: Readonly<MessengerProps>, nextState: Readonly<MessengerState>): boolean {
+        if (this.state.currentRoomId !== nextState.currentRoomId) {
+            return true;
+        }
         return false;
+    }
+    private onChangeRoomMessenger = (idRoom: string) => {
+        this.setState({
+            currentRoomId: idRoom
+        })
     }
     render(): React.ReactNode {
         return (
@@ -99,7 +107,7 @@ class Messenger extends React.Component<MessengerProps, MessengerState> {
                     </div>
                     {mockUpDataChatSummary.map((item) => {
                         return (
-                            <div className="summary-chat" key={item.room}>
+                            <div className="summary-chat" key={item.room} onClick={() => { this.onChangeRoomMessenger(item.room) }}>
                                 <div className="image-partner">
                                     <Badge>
                                         <Avatar shape="circle" size="large" src={item.avatar} />
@@ -126,7 +134,7 @@ class Messenger extends React.Component<MessengerProps, MessengerState> {
 
                 </div>
                 <div className="right-messenger">
-                    <Chat/>
+                    <Chat currentRoomId={this.state.currentRoomId} />
                 </div>
             </div>
         )

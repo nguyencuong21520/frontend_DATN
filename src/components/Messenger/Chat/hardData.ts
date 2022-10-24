@@ -1,5 +1,5 @@
-interface Message {
-    idUser: string;
+export interface Message {
+    idUser?: string;
     content: string;
     time: number | string;
 }
@@ -24,7 +24,7 @@ export const RoomChat: RoomMessenger = {
         },
         {
             idUser: '2',
-            content: "Xin chào bro, đây là tin nhắn đầu tiên tôi gửi!",
+            content: "Tôi muốn biết bạn cần gì!",
             time: 2.1,
         },
         {
@@ -38,9 +38,24 @@ export const RoomChat: RoomMessenger = {
             time: 4,
         },
         {
+            idUser: '1',
+            content: "Giá cả như thế nào!",
+            time: 4.3,
+        },
+        {
+            idUser: '1',
+            content: "Có khuyến mãi với học sinh, sinh viên không!",
+            time: 4.31,
+        },
+        {
             idUser: '2',
             content: "Hiện đang trong thời điểm khuyến mãi, giảm giá 50%!",
-            time: 5,
+            time: 4.8,
+        },
+        {
+            idUser: '2',
+            content: "Hiện đang trong thời điểm khuyến mãi, giảm giá 50%!",
+            time: 4.81,
         },
     ]
 }

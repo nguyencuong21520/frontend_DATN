@@ -97,14 +97,32 @@ div.container-chat {
             }
 
             div.mess-of-user {
+                margin: 5px 0;
                 max-width: 50%;
                 display: flex;
                 gap: 10px;
+
+                div.img-user {
+                    display: flex;
+                    align-items: flex-end;
+                }
 
                 div.message {
                     padding: 12px;
                     background: #F6F7F8;
                     border-radius: 10px 10px 10px 0px;
+                }
+            }
+
+            div.mess-of-user.right {
+                margin-left: auto;
+                flex-direction: row-reverse;
+
+                div.message {
+                    padding: 12px;
+                    color: white;
+                    background: #4C6FFF;
+                    border-radius: 10px 10px 0px 10px;
                 }
             }
         }

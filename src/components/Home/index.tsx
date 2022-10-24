@@ -200,7 +200,7 @@ export const Home = () => {
                     <div className="content">
                         {perfom.map((item) => {
                             return (
-                                <div className="item-remind" key={item.title}>
+                                <div className="item-remind" key={item.title + Math.random()*100}>
                                     <div className="icon">{item.icon}</div>
                                     <div className="summary">
                                         <span className="title">{item.title}</span>
