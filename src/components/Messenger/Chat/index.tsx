@@ -16,12 +16,15 @@ interface ChatState {
 
 }
 class Chat extends Component<ChatProps, ChatState> {
+    private data = RoomChat;
     constructor(props: ChatProps) {
         super(props);
     }
     private onFinish = (e: any) => {
         console.log(e);
     }
+
+
     render() {
         return (
             <div className="container-chat">
@@ -43,7 +46,32 @@ class Chat extends Component<ChatProps, ChatState> {
                 </div>
                 <div className="send-message">
                     <div className="content">
-                        <div className="mess-of-user">
+                        {this.data.messInRoom.map((item, idx) => {
+                            return (
+                                <div className={`mess-of-user ${item.idUser === '1' ? 'left' : 'right'}`} key={item.time}>
+                                    <div className="img-user">
+                                        {
+                                            idx < (this.data.messInRoom.length - 1) ? ((
+                                                item.idUser !== this.data.messInRoom[idx + 1].idUser ? (<Badge>
+                                                    <Avatar shape="circle" size="large" src={AvatarUser} />
+                                                </Badge>) : ((<Badge>
+                                                    <Avatar shape="circle" size="large" style={{ backgroundColor: 'transparent' }} />
+                                                </Badge>))
+                                            )) : (<Badge>
+                                                <Avatar shape="circle" size="large" src={AvatarUser} />
+                                            </Badge>)
+
+                                        }
+                                    </div>
+                                    <div className="message">
+                                        {
+                                            item.content
+                                        }
+                                    </div>
+                                </div>
+                            )
+                        })}
+                        {/* <div className={`mess-of-user left`}>
                             <div className="img-user">
                                 <Badge>
                                     <Avatar shape="circle" size="large" src={AvatarUser} />
@@ -53,6 +81,16 @@ class Chat extends Component<ChatProps, ChatState> {
                                 đây là đoạn chát aha hahhahahahahhahah ahahhahaha hhahahahhahahah
                             </div>
                         </div>
+                        <div className={`mess-of-user right`}>
+                            <div className="img-user">
+                                <Badge>
+                                    <Avatar shape="circle" size="large" src={AvatarUser} />
+                                </Badge>
+                            </div>
+                            <div className="message">
+                                đây là đoạn chát aha hahhahahahahhahah ahahhahaha hhahahahhahahah
+                            </div>
+                        </div> */}
                     </div>
                     <div className="type-message">
                         <div className="attachment"><AttachFile /></div>
