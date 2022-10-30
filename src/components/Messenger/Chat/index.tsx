@@ -35,7 +35,6 @@ class Chat extends Component<ChatProps, ChatState> {
         }
         return false;
     }
-
     render() {
         return (
             <div className="container-chat">
