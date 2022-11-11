@@ -1,6 +1,6 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-// import { AuthProtect } from './components/ForgotPassword/AuthProtect';
+// import { AuthProtect } from './components/AuthProtect';
 import { Layout } from './components/layout';
 import { Cources } from './components/Courses';
 import { LayoutAuth } from './components/LayoutAuth';

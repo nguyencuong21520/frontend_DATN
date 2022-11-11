@@ -81,26 +81,6 @@ class Chat extends Component<ChatProps, ChatState> {
                                 </div>
                             )
                         })}
-                        {/* <div className={`mess-of-user left`}>
-                            <div className="img-user">
-                                <Badge>
-                                    <Avatar shape="circle" size="large" src={AvatarUser} />
-                                </Badge>
-                            </div>
-                            <div className="message">
-                                đây là đoạn chát aha hahhahahahahhahah ahahhahaha hhahahahhahahah
-                            </div>
-                        </div>
-                        <div className={`mess-of-user right`}>
-                            <div className="img-user">
-                                <Badge>
-                                    <Avatar shape="circle" size="large" src={AvatarUser} />
-                                </Badge>
-                            </div>
-                            <div className="message">
-                                đây là đoạn chát aha hahhahahahahhahah ahahhahaha hhahahahhahahah
-                            </div>
-                        </div> */}
                     </div>
                     <div className="type-message">
                         <div className="attachment"><AttachFile /></div>

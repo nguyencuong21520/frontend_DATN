@@ -143,9 +143,9 @@ export const Home = () => {
     return (
         <div className="container-home">
             <div className="top-home">
-                {analysisDashboard.map((item) => {
+                {analysisDashboard.map((item, idx) => {
                     return (
-                        <div className="item" key={item.key}>
+                        <div className="item" key={item.key + idx}>
                             <div className="top-item">
                                 <div className="icon">{item.icon}</div>
                                 <div className="Summary">
@@ -173,7 +173,7 @@ export const Home = () => {
                     <div className="main-home">
                         {mockupDataCourses.map((item, index) => {
                             return (
-                                <div className={`item-course cell${index + 1}`}>
+                                <div className={`item-course cell${index + 1}`} key={index}>
                                     <div className="img-title">
                                         <span className="span title">{item.name}</span>
                                         <img src={Excel} alt="subj" className="img-subj" />
@@ -200,7 +200,7 @@ export const Home = () => {
                     <div className="content">
                         {perfom.map((item) => {
                             return (
-                                <div className="item-remind" key={item.title + Math.random()*100}>
+                                <div className="item-remind" key={item.title + Math.random() * 100}>
                                     <div className="icon">{item.icon}</div>
                                     <div className="summary">
                                         <span className="title">{item.title}</span>
