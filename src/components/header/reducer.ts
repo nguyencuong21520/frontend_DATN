@@ -1,15 +1,8 @@
-import { Action } from "../../global/interface";
-import { GET_DATA, REQUEST_API } from "./actions";
+import { createReducer } from "../../utils/redux";
+export const REQUEST_API = "REQUEST_API";
+export const GET_DATA_SUCCESS = "GET_DATA_SUCCESS";
+export const GET_DATA_FAILED = "GET_DATA_FAILED";
 
 // example APIs Redux-Saga
-const TestReducer = (state: Array<string> | null = null, action: Action) => {
-    switch (action.type) {
-        case REQUEST_API:
-            return null;
-        case GET_DATA:
-            return action.payload;
-        default:
-            return state;
-    }
-}
+const TestReducer = createReducer(GET_DATA_SUCCESS, GET_DATA_FAILED, REQUEST_API);
 export default TestReducer;

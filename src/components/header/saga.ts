@@ -1,23 +1,28 @@
-import { Obj } from '../../global/interface';
 import httpClient from '../../utils/axios';
 import { all, call, put, takeLatest } from 'redux-saga/effects';
-import { GetData, REQUEST_API } from './actions';
+import { GET_DATA_SUCCESS, REQUEST_API, GET_DATA_FAILED } from './reducer';
+import { GetData } from './actions';
 
 
 // call api lấy data
 const callData = async () => {
     // call api
     const response = await httpClient.get('/todos');
-    return response.data;
+    return response;
 }
 
 // handle lấy data với saga để cho vào reducer
 function* fetchGetData(): Generator {
     try {
         const response = yield call(callData);
-        yield put(GetData(response as Array<Obj>));
+        if (response) {
+            yield put(GetData({ payload: response, type: GET_DATA_SUCCESS }));
+        } else {
+            yield put(GetData({ type: GET_DATA_FAILED }));
+        }
+
     } catch (error) {
-        console.log(error);
+        yield put(GetData({ type: GET_DATA_FAILED }));
     }
 }
 
