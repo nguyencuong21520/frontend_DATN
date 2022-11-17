@@ -1,12 +1,14 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Badge, Dropdown, Menu, Space } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
+import { uuid } from '../../utils';
 import { ReactComponent as ToolList } from '../../assets/svg/ToolList.svg';
 import { ReactComponent as Search } from '../../assets/svg/search.svg';
 import { ReactComponent as Bell } from '../../assets/svg/Bell.svg';
 import { ReactComponent as AvatarHard } from '../../assets/svg/AvatarHard.svg';
-import { CallApis, HeaderSelector } from './actions';
+import { HeaderSelector, GetData } from './actions';
+import { REQUEST_API } from './reducer';
 import './style.scss';
 
 const menu = (
@@ -28,11 +30,17 @@ const menu = (
 export const Header = () => {
   const api = useSelector(HeaderSelector);
   const dispatch = useDispatch();
+  const [componentId,] = useState<string>(uuid());
+
   useEffect(() => {
     if (!api) {
-      dispatch(CallApis())
+      dispatch(GetData({
+        componentId: componentId,
+        type: REQUEST_API
+      }))
     }
-  }, [api])
+  }, [])
+  console.log(api)
 
   return (
     <div className="container-header">

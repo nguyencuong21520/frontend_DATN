@@ -1,5 +1,6 @@
 import React, { useEffect, useReducer } from 'react';
 import { Dropdown, Menu, Space } from 'antd';
+import { useNavigate } from 'react-router-dom';
 import { Obj } from '../../global/interface';
 import { ReactComponent as DropdownArrow } from '../../assets/svg/DropdownArrow.svg';
 import { ReactComponent as Filters } from '../../assets/svg/Filters.svg';
@@ -145,6 +146,7 @@ const reducerFilter = (filter: Obj, action: { type: string, payload: string }) =
 }
 export const Cources = () => {
   const [filter, dispatch] = useReducer(reducerFilter, initFieldsFilter);
+  const navigate = useNavigate();
   useEffect(() => {
     document.title = 'Khóa học'
   }, [])
@@ -283,7 +285,7 @@ export const Cources = () => {
     <div className="container-courses">
       <div className="top-container">
         <div className="title">
-          <h3>Khoá học</h3>
+          <h3>Khóa học</h3>
         </div>
         <div className="filter">
           <div className="fields">
@@ -329,7 +331,9 @@ export const Cources = () => {
       <div className="main-courses">
         {mockupDataCourses.map((item, index) => {
           return (
-            <div className={`item-course cell${index + 1}`}>
+            <div className={`item-course cell${index + 1}`} key={item.id} onClick={()=>{
+              navigate(`detail/${item.id}`)
+            }}>
               <div className="img-title">
                 <span className="span title">{item.name}</span>
                 <img src={Excel} alt="subj" className="img-subj" />

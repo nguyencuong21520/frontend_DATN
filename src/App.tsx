@@ -11,6 +11,7 @@ import { ResetPassword } from './components/ForgotPassword/ResetPassword';
 import { Home } from './components/Home';
 import { ErrorPage } from './components/Err';
 import Messenger from './components/Messenger';
+import DetailCourse from './components/Courses/DetailCourse';
 import './App.css';
 
 function App() {
@@ -19,7 +20,10 @@ function App() {
       {/* <Route path='/' element={<AuthProtect><Layout /></AuthProtect>}> */}
       <Route path={'/'} element={<Layout />}>
         <Route path='' element={<Home />} />
-        <Route path='cources' element={<Cources />} />
+        <Route path='cources'  >
+          <Route path='' element={<Cources />} />
+          <Route path='detail/:id' element={<DetailCourse />} />
+        </Route>
         <Route path='messenger' element={<Messenger />} />
 
         <Route path='*' element={<ErrorPage />} />

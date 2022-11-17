@@ -1,20 +1,11 @@
-import { Obj } from "../../global/interface";
+import { Action } from "../../global/interface";
 import { State } from "../../redux-saga/reducer/reducer"
 
-export const REQUEST_API = "REQUEST_API";
-export const GET_DATA = "GET_DATA";
+export const HeaderSelector = (state: State) => state.Test;
 
-
-export const HeaderSelector = (state:State)=> state.Test
-
-export const CallApis = () => {
+export const GetData = (payload: Action) => {
     return {
-        type: REQUEST_API
-    }
-}
-export const GetData = (payload: Array<Obj>) => {
-    return {
-        payload: payload,
-        type: GET_DATA
+        type: payload.type,
+        payload: payload
     }
 }
