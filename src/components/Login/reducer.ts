@@ -1,11 +1,9 @@
-import { Action, User } from "../../global/interface";
-import { SET_INFO_USER } from "./action";
+import { createReducer } from "../../utils/redux";
+export const USER_REQUEST_LOGIN_API = "USER_REQUEST_LOGIN_API";
+export const USER_LOGIN_SUCCESS = "USER_LOGIN_SUCCESS";
+export const USER_LOGIN_FAILED = "USER_LOGIN_FAILED";
+export const USER_LOGOUT_CLEAR = "USER_LOGOUT_CLEAR";
 
-export const UserReducer = (state: User | null = null, action: Action) => {
-    switch (action.type) {
-        case SET_INFO_USER:
-            return action.payload
-        default:
-            return state
-    }
-}
+// example APIs Redux-Saga
+const UserReducer = createReducer(USER_REQUEST_LOGIN_API, USER_LOGIN_SUCCESS, USER_LOGIN_FAILED, USER_LOGOUT_CLEAR);
+export default UserReducer;
