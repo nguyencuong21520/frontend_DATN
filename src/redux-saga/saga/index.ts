@@ -1,7 +1,11 @@
-import { all, fork } from "redux-saga/effects";
-import queryHeader from "../../components/header/saga";
-
+import { all } from "redux-saga/effects";
+import queryDataCources from "../../components/Courses/saga";
+import { queryDataUser, signUpUser } from "../user/saga";
 
 export function* rootSaga() {
-    yield all([fork(queryHeader)]);
+    yield all([
+        queryDataUser(),
+        queryDataCources(),
+        signUpUser(),
+    ]);
 }

@@ -1,15 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
 import { Badge, Dropdown, Menu, Space } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
-import { uuid } from '../../utils';
+import { useSelector } from 'react-redux';
+import { State } from '../../redux-saga/reducer/reducer';
 import { ReactComponent as ToolList } from '../../assets/svg/ToolList.svg';
 import { ReactComponent as Search } from '../../assets/svg/search.svg';
 import { ReactComponent as Bell } from '../../assets/svg/Bell.svg';
 import { ReactComponent as AvatarHard } from '../../assets/svg/AvatarHard.svg';
-import { HeaderSelector, GetData } from './actions';
-import { REQUEST_API } from './reducer';
 import './style.scss';
+import { Obj } from '../../global/interface';
 
 const menu = (
   <Menu
@@ -28,20 +27,8 @@ const menu = (
 
 
 export const Header = () => {
-  const api = useSelector(HeaderSelector);
-  const dispatch = useDispatch();
-  const [componentId,] = useState<string>(uuid());
-
-  useEffect(() => {
-    if (!api) {
-      dispatch(GetData({
-        componentId: componentId,
-        type: REQUEST_API
-      }))
-    }
-  }, [])
-  console.log(api)
-
+  const getUser = useSelector((state: State) => state.User);
+  const currentUser = (getUser?.response as Obj)?.response.data;
   return (
     <div className="container-header">
       <div className="re-search">
@@ -63,7 +50,7 @@ export const Header = () => {
             <Dropdown overlay={menu} trigger={['click']}>
               <a onClick={e => e.preventDefault()}>
                 <Space>
-                  <span className="name-user">Nguyen Cuong <br /><i style={{ fontStyle: 'normal', fontWeight: 'normal', color: '#767278' }}>60TH4</i></span>
+                  <span className="name-user">{currentUser?.username as string} <br /><i style={{ fontStyle: 'normal', fontWeight: 'normal', color: '#767278' }}>60TH4</i></span>
                   <DownOutlined />
                 </Space>
               </a>
