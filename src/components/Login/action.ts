@@ -1,10 +1,8 @@
-import { User } from "../../global/interface";
+import { Action } from "../../global/interface";
 
-export const SET_INFO_USER = 'SET_INFO_USER';
-
-export const SetDataUser = (payload: User) => {
+export const UserAction = (payload: Action) => {
     return {
-        type: SET_INFO_USER,
-        payload
+        type: payload.type,
+        payload: payload
     }
 }
