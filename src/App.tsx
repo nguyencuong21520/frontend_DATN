@@ -12,6 +12,7 @@ import { Home } from './components/Home';
 import { ErrorPage } from './components/Err';
 import Messenger from './components/Messenger';
 import DetailCourse from './components/Courses/DetailCourse';
+import { PracticeScorm } from './components/PracticeScorm';
 import './App.css';
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
           <Route path='detail/:id' element={<DetailCourse />} />
         </Route>
         <Route path='messenger' element={<Messenger />} />
+        <Route path='practice-scorm' element={<PracticeScorm />} />
 
         <Route path='*' element={<ErrorPage />} />
       </Route>

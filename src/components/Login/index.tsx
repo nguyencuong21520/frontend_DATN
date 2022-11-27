@@ -1,24 +1,48 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { Button, Checkbox, Form, Input, Spin } from 'antd';
+import { Obj } from '../../global/interface';
+import { Toaster } from '../../utils/ToastMess';
+import { State } from '../../redux-saga/reducer/reducer';
 import { ReactComponent as Sms } from '../../assets/svg/Sms.svg';
+import { USER_REQUEST_LOGIN_API } from './reducer';
+import { UserAction } from './action';
 import './style.scss';
-
 interface LoginType {
     email: string;
     password: string;
 }
 export const Login = () => {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const userSignIn = useSelector((state: State) => state.User);
     const [spin, setSpin] = useState<boolean>(false);
     useEffect(() => {
-        document.title = 'Đăng nhập'
-    }, [])
+        document.title = 'Đăng nhập';
+        if (userSignIn) {
+            if (!userSignIn.pending) {
+                if ((userSignIn?.response as Obj)?.success) {
+                    Toaster.Success('Đăng nhập thành công!');
+                    setSpin(false);
+                    setTimeout(() => {
+                        navigate('/', { replace: true });
+                    }, 2000)
+                } else {
+                    setSpin(false);
+                    Toaster.Error('Đăng nhập thất bại!');
+                }
+            }
+        }
+    }, [userSignIn])
     const onFinish = (e: LoginType) => {
-        console.log(e);
         setSpin(true);
-        setTimeout(() => {
-            setSpin(false)
-        }, 1000)
+        dispatch(UserAction({
+            type: USER_REQUEST_LOGIN_API,
+            payload: {
+                body: e
+            }
+        }))
     }
     return (
         <div className="container-login">

@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { USER_LOGOUT_CLEAR } from '../Login/reducer';
 import { ReactComponent as Ellipse1 } from '../../assets/svg/Ellipse1.svg';
 import { ReactComponent as Vector1 } from '../../assets/svg/Vector1.svg';
 import { ReactComponent as Polygon1 } from '../../assets/svg/Polygon1.svg';
@@ -12,6 +14,7 @@ import { ReactComponent as Headset } from '../../assets/svg/Headset.svg';
 import { ReactComponent as Settings } from '../../assets/svg/Settings.svg';
 import { ReactComponent as User } from '../../assets/svg/User.svg';
 import { ReactComponent as Leave } from '../../assets/svg/Leave.svg';
+import { UserAction } from '../Login/action';
 import './style.scss';
 
 enum Page {
@@ -77,12 +80,19 @@ export const SideBar = () => {
   const [currentPage, setCurrentPage] = useState<string>(Page.HOME_PAGE);
   const navigate = useNavigate();
   const currentRoute = useLocation();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setCurrentPage(currentRoute.pathname.slice(1, currentRoute.pathname.length));
   }, [currentRoute])
   const handleSwitchPage = (page: string) => {
-    setCurrentPage(page)
+    setCurrentPage(page);
+  }
+  const userLogout = () => {
+    localStorage.removeItem('access_token');
+    dispatch(UserAction({
+      type: USER_LOGOUT_CLEAR
+    }));
   }
   return (
     <div className="side-bar">
@@ -125,7 +135,11 @@ export const SideBar = () => {
               return (
                 <div className={`nav-item ${currentPage === item.route ? 'actived' : null}`} key={item.title} onClick={() => {
                   handleSwitchPage(item.key);
+                  if (item.key === Page.LOGOUT) {
+                    userLogout();
+                  }
                   navigate(item.route, { replace: true });
+
                 }}>
                   {item.icon}
                   <span>{item.title}</span>

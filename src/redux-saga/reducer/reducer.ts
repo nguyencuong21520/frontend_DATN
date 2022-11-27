@@ -1,9 +1,7 @@
 import { AnyAction, combineReducers, Reducer } from 'redux';
-import TestReducer from '../../components/header/reducer';
-import { UserReducer } from '../../components/Login/reducer';
+import UserReducer from '../../components/Login/reducer';
 
 const state = combineReducers({
-    Test: TestReducer,
     User: UserReducer
 });
 export type State = ReturnType<typeof state>
