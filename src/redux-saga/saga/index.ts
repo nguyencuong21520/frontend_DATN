@@ -1,8 +1,11 @@
 import { all } from "redux-saga/effects";
-import queryDataUser from "../../components/Login/saga";
+import queryDataCources from "../../components/Courses/saga";
+import { queryDataUser, signUpUser } from "../user/saga";
 
 export function* rootSaga() {
     yield all([
-        queryDataUser()
+        queryDataUser(),
+        queryDataCources(),
+        signUpUser(),
     ]);
 }

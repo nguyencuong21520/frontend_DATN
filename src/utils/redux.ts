@@ -15,7 +15,7 @@ export const createReducer = (request: string, success: string, failed: string, 
                     ...state,
                     success: false,
                     pending: false,
-                    response: undefined,
+                    response: action.payload,
                 }
             case request:
                 return {

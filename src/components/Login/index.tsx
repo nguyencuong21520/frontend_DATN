@@ -6,8 +6,8 @@ import { Obj } from '../../global/interface';
 import { Toaster } from '../../utils/ToastMess';
 import { State } from '../../redux-saga/reducer/reducer';
 import { ReactComponent as Sms } from '../../assets/svg/Sms.svg';
-import { USER_REQUEST_LOGIN_API } from './reducer';
-import { UserAction } from './action';
+import { UserAction } from '../../redux-saga/user/action';
+import { USER_REQUEST_LOGIN_API } from '../../redux-saga/user/reducer';
 import './style.scss';
 interface LoginType {
     email: string;

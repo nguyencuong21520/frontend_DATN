@@ -2,6 +2,10 @@ import React, { useEffect, useReducer } from 'react';
 import { Dropdown, Menu, Space } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { Obj } from '../../global/interface';
+import { useSelector, useDispatch } from 'react-redux';
+import { State } from '../../redux-saga/reducer/reducer';
+import { COURCES_REQUEST_GET_DATA } from './reducer';
+import { CourcesAction } from './action';
 import { ReactComponent as DropdownArrow } from '../../assets/svg/DropdownArrow.svg';
 import { ReactComponent as Filters } from '../../assets/svg/Filters.svg';
 import { ReactComponent as ShapeCube } from '../../assets/svg/ShapeCube.svg';
@@ -11,118 +15,11 @@ import { Lock } from '../../assets/img';
 import { UnLock } from '../../assets/img';
 import './style.scss';
 
-
-interface TypeDataCourses {
-  id: number;
-  name: string;
-  img: React.ReactElement;
-  summary: string;
-  time: string;
-  status: boolean
-}
 const initFieldsFilter = {
   sortBy: 'Popular',
   courses: 'Courses',
   category: 'Category'
 }
-const mockupDataCourses: Array<TypeDataCourses> = [
-  {
-    id: 1,
-    name: 'Excel',
-    img: <Excel />,
-    summary: 'Excel cơ bản',
-    time: '15 lessons (10h5m)',
-    status: true
-  },
-  {
-    id: 2,
-    name: 'Excel',
-    img: <Excel />,
-    summary: 'Excel cơ bản',
-    time: '15 lessons (10h5m)',
-    status: false
-  },
-  {
-    id: 3,
-    name: 'Excel',
-    img: <Excel />,
-    summary: 'Excel cơ bản',
-    time: '15 lessons (10h5m)',
-    status: true
-  },
-  {
-    id: 4,
-    name: 'Excel',
-    img: <Excel />,
-    summary: 'Excel cơ bản',
-    time: '15 lessons (10h5m)',
-    status: true
-  },
-  {
-    id: 5,
-    name: 'Excel',
-    img: <Excel />,
-    summary: 'Excel cơ bản',
-    time: '15 lessons (10h5m)',
-    status: false
-  },
-  {
-    id: 6,
-    name: 'Excel',
-    img: <Excel />,
-    summary: 'Excel cơ bản',
-    time: '15 lessons (10h5m)',
-    status: true
-  },
-  {
-    id: 7,
-    name: 'Excel',
-    img: <Excel />,
-    summary: 'Excel cơ bản',
-    time: '15 lessons (10h5m)',
-    status: false
-  },
-  {
-    id: 8,
-    name: 'Excel',
-    img: <Excel />,
-    summary: 'Excel cơ bản',
-    time: '15 lessons (10h5m)',
-    status: true
-  },
-  {
-    id: 9,
-    name: 'Excel',
-    img: <Excel />,
-    summary: 'Excel cơ bản',
-    time: '15 lessons (10h5m)',
-    status: true
-  },
-  {
-    id: 10,
-    name: 'Excel',
-    img: <Excel />,
-    summary: 'Excel cơ bản',
-    time: '15 lessons (10h5m)',
-    status: true
-  },
-  {
-    id: 11,
-    name: 'Excel',
-    img: <Excel />,
-    summary: 'Excel cơ bản',
-    time: '15 lessons (10h5m)',
-    status: true
-  },
-  {
-    id: 12,
-    name: 'Excel',
-    img: <Excel />,
-    summary: 'Excel cơ bản',
-    time: '15 lessons (10h5m)',
-    status: true
-  },
-]
 const reducerFilter = (filter: Obj, action: { type: string, payload: string }) => {
   switch (action.type) {
     case 'SortBy':
@@ -144,12 +41,23 @@ const reducerFilter = (filter: Obj, action: { type: string, payload: string }) =
       return filter
   }
 }
+export const MAJOR_THUMBNAIL: Record<string, string> = {
+  'Excel': Excel
+}
 export const Cources = () => {
   const [filter, dispatch] = useReducer(reducerFilter, initFieldsFilter);
+  const cources = useSelector((state: State) => state.Cources);
+  const dataCources = (cources?.response as Obj)?.response.data as Record<string, unknown>[] || [];
+  const dispatchAction = useDispatch();
   const navigate = useNavigate();
   useEffect(() => {
-    document.title = 'Khóa học'
-  }, [])
+    document.title = 'Khóa học';
+    if (!cources) {
+      dispatchAction(CourcesAction({
+        type: COURCES_REQUEST_GET_DATA
+      }))
+    }
+  }, [cources])
   const menuSortBy = (
     <Menu
       items={[
@@ -329,28 +237,32 @@ export const Cources = () => {
         </div>
       </div>
       <div className="main-courses">
-        {mockupDataCourses.map((item, index) => {
-          return (
-            <div className={`item-course cell${index + 1}`} key={item.id} onClick={()=>{
-              navigate(`detail/${item.id}`)
-            }}>
-              <div className="img-title">
-                <span className="span title">{item.name}</span>
-                <img src={Excel} alt="subj" className="img-subj" />
-              </div>
-              <div className="summary">
-                <span className="span name-subj">{item.summary}</span>
-                <div className="footer">
-                  <div className="time">
-                    <TimeRange className="icon" />
-                    <span className="time">{item.time}</span>
+        {dataCources.length === 0 ? (<div>Không có dữ liệu!</div>) : (
+          dataCources.map((item, index) => {
+            return (
+              <div className={`item-course cell${index + 1}`} key={item._id as string} onClick={() => {
+                navigate(`detail/${item._id as string}`)
+              }}>
+                <div className="img-title">
+                  <span className="span title">{item.major as string}</span>
+                  <img src={MAJOR_THUMBNAIL[item.major as string]} alt="subj" className="img-subj" />
+                </div>
+                <div className="summary">
+                  <span className="span name-subj">{item.nameCource as string}</span>
+                  <div className="footer">
+                    <div className="time">
+                      <TimeRange className="icon" />
+                      <span className="time">{item.time as string || ''}</span>
+                    </div>
+                    {item.status ? <img src={UnLock} alt="UnLock" /> : <img src={Lock} alt="Lock" />}
                   </div>
-                  {item.status === true ? <img src={UnLock} alt="UnLock" /> : <img src={Lock} alt="Lock" />}
                 </div>
               </div>
-            </div>
-          )
-        })}
+            )
+          })
+        )}
+
+
       </div>
     </div>
   )

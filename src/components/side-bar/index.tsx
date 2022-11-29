@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { USER_LOGOUT_CLEAR } from '../Login/reducer';
+import { UserAction } from '../../redux-saga/user/action';
+import { USER_LOGOUT_CLEAR } from '../../redux-saga/user/reducer';
 import { ReactComponent as Ellipse1 } from '../../assets/svg/Ellipse1.svg';
 import { ReactComponent as Vector1 } from '../../assets/svg/Vector1.svg';
 import { ReactComponent as Polygon1 } from '../../assets/svg/Polygon1.svg';
@@ -14,7 +15,6 @@ import { ReactComponent as Headset } from '../../assets/svg/Headset.svg';
 import { ReactComponent as Settings } from '../../assets/svg/Settings.svg';
 import { ReactComponent as User } from '../../assets/svg/User.svg';
 import { ReactComponent as Leave } from '../../assets/svg/Leave.svg';
-import { UserAction } from '../Login/action';
 import './style.scss';
 
 enum Page {
