@@ -1,6 +1,7 @@
 import React from 'react';
 import { Badge, Dropdown, Menu, Space } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
+import { Obj } from '../../global/interface';
 import { useSelector } from 'react-redux';
 import { State } from '../../redux-saga/reducer/reducer';
 import { ReactComponent as ToolList } from '../../assets/svg/ToolList.svg';
@@ -8,7 +9,6 @@ import { ReactComponent as Search } from '../../assets/svg/search.svg';
 import { ReactComponent as Bell } from '../../assets/svg/Bell.svg';
 import { ReactComponent as AvatarHard } from '../../assets/svg/AvatarHard.svg';
 import './style.scss';
-import { Obj } from '../../global/interface';
 
 const menu = (
   <Menu

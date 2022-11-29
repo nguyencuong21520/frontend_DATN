@@ -27,7 +27,7 @@ class Chat extends Component<ChatProps, ChatState> {
     }) => {
         console.log(e.message);
     }
-    shouldComponentUpdate(nextProps: Readonly<ChatProps>, nextState: Readonly<ChatState>): boolean {
+    shouldComponentUpdate(nextProps: Readonly<ChatProps>): boolean {
         if (this.props.currentRoomId !== nextProps.currentRoomId) {
             console.log(nextProps.currentRoomId);
 

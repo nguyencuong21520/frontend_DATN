@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import { USER } from '../../global/enum';
+import { useGetUser } from '../../utils/Hook';
 import { UserAction } from '../../redux-saga/user/action';
 import { USER_LOGOUT_CLEAR } from '../../redux-saga/user/reducer';
 import { ReactComponent as Ellipse1 } from '../../assets/svg/Ellipse1.svg';
@@ -17,6 +19,12 @@ import { ReactComponent as User } from '../../assets/svg/User.svg';
 import { ReactComponent as Leave } from '../../assets/svg/Leave.svg';
 import './style.scss';
 
+interface NavigationBar {
+  icon: React.ReactElement;
+  title: string;
+  key: string;
+  route: string;
+}
 enum Page {
   HOME_PAGE = 'HOME_PAGE',
   COURSES = 'COURSES',
@@ -26,62 +34,66 @@ enum Page {
   ACCOUNT = 'ACCOUNT',
   LOGOUT = 'LOGOUT',
 }
-const navigation: Array<{
-  icon: React.ReactElement;
-  title: string;
-  key: string;
-  route: string;
-}> = [
-    {
-      icon: <Homepage className="icon-cpn" />,
-      title: 'Trang chủ',
-      key: Page.HOME_PAGE,
-      route: ''
-    },
-    {
-      icon: <ListCources className="icon-cpn" />,
-      title: 'Khoá học',
-      key: Page.COURSES,
-      route: 'cources'
-    },
-    {
-      icon: <Mess className="icon-cpn" />,
-      title: 'Tin nhắn',
-      key: Page.MESS,
-      route: 'messenger'
-    },
-    {
-      icon: <Headset className="icon-cpn" />,
-      title: 'Hỗ trợ',
-      key: Page.SUPPORT,
-      route: 'support'
-    },
-    {
-      icon: <Settings className="icon-cpn" />,
-      title: 'Cài đặt',
-      key: Page.SETTING,
-      route: 'setting'
-    },
-    {
-      icon: <User className="icon-cpn" />,
-      title: 'Tài khoản',
-      key: Page.ACCOUNT,
-      route: 'my-profile'
-    },
-    {
-      icon: <Leave className="icon-cpn" />,
-      title: 'Đăng xuất',
-      key: Page.LOGOUT,
-      route: '/account/login'
-    },
-  ]
+const navigation: Array<NavigationBar> = [
+  {
+    icon: <Homepage className="icon-cpn" />,
+    title: 'Trang chủ',
+    key: Page.HOME_PAGE,
+    route: ''
+  },
+  {
+    icon: <ListCources className="icon-cpn" />,
+    title: 'Khoá học của tôi',
+    key: Page.COURSES,
+    route: 'cources'
+  },
+  {
+    icon: <Mess className="icon-cpn" />,
+    title: 'Tin nhắn',
+    key: Page.MESS,
+    route: 'messenger'
+  },
+  {
+    icon: <Headset className="icon-cpn" />,
+    title: 'Hỗ trợ',
+    key: Page.SUPPORT,
+    route: 'support'
+  },
+  {
+    icon: <Settings className="icon-cpn" />,
+    title: 'Cài đặt',
+    key: Page.SETTING,
+    route: 'setting'
+  },
+  {
+    icon: <User className="icon-cpn" />,
+    title: 'Tài khoản',
+    key: Page.ACCOUNT,
+    route: 'my-profile'
+  },
+  {
+    icon: <Leave className="icon-cpn" />,
+    title: 'Đăng xuất',
+    key: Page.LOGOUT,
+    route: '/account/login'
+  },
+]
+
+const navigationForTeacher: Array<NavigationBar> = [
+  {
+    icon: <Homepage className="icon-cpn" />,
+    title: 'Lớp học của tôi',
+    key: Page.HOME_PAGE,
+    route: 'manager/courses'
+  },
+]
 
 export const SideBar = () => {
   const [currentPage, setCurrentPage] = useState<string>(Page.HOME_PAGE);
   const navigate = useNavigate();
   const currentRoute = useLocation();
   const dispatch = useDispatch();
-
+  const currentUser = useGetUser();
   useEffect(() => {
     setCurrentPage(currentRoute.pathname.slice(1, currentRoute.pathname.length));
   }, [currentRoute])
@@ -114,19 +126,36 @@ export const SideBar = () => {
         </div>
         <div className="part-top">
           <div className="top">
-            {navigation.slice(0, 5).map((item) => {
-              return (
-                <div className={`nav-item ${currentPage === item.route ? 'actived' : null}`} key={item.title} onClick={() => {
-                  handleSwitchPage(item.key);
-                  navigate(item.route, { replace: true });
-                }}>
-                  {item.icon}
-                  <span>{item.title}</span>
-                </div>
-              )
-            })}
+            {currentUser?.role === USER.STUDENT ?
+              (navigation.slice(0, 5).map((item) => {
+                return (
+                  <div className={`nav-item ${currentPage === item.route ? 'actived' : null}`} key={item.title} onClick={() => {
+                    handleSwitchPage(item.key);
+                    navigate(item.route, { replace: true });
+                  }}>
+                    {item.icon}
+                    <span>{item.title}</span>
+                  </div>
+                )
+              })) :
+              currentUser?.role === USER.TEACHER ?
+                (navigationForTeacher.map((item) => {
+                  return (
+                    <div className={`nav-item ${currentPage === item.route ? 'actived' : null}`} key={item.title} onClick={() => {
+                      handleSwitchPage(item.key);
+                      navigate(item.route, { replace: true });
+                    }}>
+                      {item.icon}
+                      <span>{item.title}</span>
+                    </div>
+                  )
+                }))
+                : 'ADMIN'
+            }
+
           </div>
         </div>
+
       </div>
       <div className="navigation-bar">
         <div className="part-bottom">

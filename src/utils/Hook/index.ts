@@ -1,9 +1,18 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
+import { Obj } from "../../global/interface";
+import { State } from "../../redux-saga/reducer/reducer";
 
 const useQuery = () => {
     const { search } = useLocation();
 
     return React.useMemo(() => new URLSearchParams(search), [search]);
 }
-export {useQuery};
+
+const useGetUser = () => {
+    const getUser = useSelector((state: State) => state.User);
+    const currentUser = (getUser?.response as Obj)?.response.data;
+    return currentUser
+}
+export { useQuery, useGetUser };
