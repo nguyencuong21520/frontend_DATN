@@ -20,7 +20,7 @@ export const InfoCourse = (props: InfoCourseProps) => {
                 {props.content || ''}
             </div>
             <h3 className="title-comment">Bình luận</h3>
-            {!props.comment ? (<>
+            {props.comment ? (<>
                 <div className="comment">
                     <div className="content-comment">
                         <div className="item-comment">
